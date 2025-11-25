@@ -1,0 +1,51 @@
+.navbar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 15px 40px;
+background: #1E3A8A;
+color: white;
+position: sticky;
+top: 0;
+z-index: 10;
+}
+
+.nav-logo a {
+font-size: 22px;
+color: white;
+font-weight: bold;
+text-decoration: none;
+}
+
+.nav-links {
+display: flex;
+gap: 20px;
+list-style: none;
+}
+
+.nav-links a {
+color: white;
+text-decoration: none;
+font-size: 16px;
+}
+
+.add-btn {
+background: #22c55e;
+padding: 8px 14px;
+border-radius: 8px;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.nav-user {
+  color: #fff;
+  align-self: center;
+  padding-right: 6px;
+}
