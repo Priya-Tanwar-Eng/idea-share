@@ -8,10 +8,14 @@ dotenv.config();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://idea-share-3joy.vercel.app" // frontend URL
+    "https://idea-share-3joy.vercel.app"
   ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
+
+app.options("*", cors());
 
 app.use(express.json());
 
