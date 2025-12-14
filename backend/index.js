@@ -5,9 +5,12 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/dbConn.js");
 
 dotenv.config();
-const app = express();
 app.use(cors({
-  origin: "*"
+  origin: [
+    "http://localhost:5173",
+    "https://idea-share-3joy.vercel.app" // frontend URL
+  ],
+  credentials: true
 }));
 
 app.use(express.json());
