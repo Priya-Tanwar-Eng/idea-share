@@ -22,11 +22,11 @@
 .hero {
   display: grid;
   grid-template-columns: 1fr 480px;
-  gap: 36px;
+  gap: 50px;
   align-items: center;
   max-width: 1200px;
-  margin: 32px auto;
-  padding: 36px;
+  /* margin: 32px auto; */
+  padding: 60px 100px;
 }
 
 .hero-left {
