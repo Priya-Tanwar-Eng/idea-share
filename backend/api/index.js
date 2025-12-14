@@ -21,7 +21,7 @@ app.use(cors({
 
 app.options("*", cors());
 
-connectDB();
+// connectDB();
 
 const authRoutes = require("../routes/authRoutes");
 const ideaRoutes = require("../routes/ideaRoutes");
