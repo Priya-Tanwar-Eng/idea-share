@@ -1,101 +1,72 @@
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { successToast } from "../utils/Toast";
+import "./Navbar.css";
 
 function Navbar() {
-return (
-<nav
-style={{
-width: "100%",
-background: "#0d47a1",
-padding: "12px 25px",
-display: "flex",
-alignItems: "center",
-justifyContent: "space-between",
-boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-position: "sticky",
-top: 0,
-zIndex: 100,
-}}
->
-<div style={{ fontSize: "24px", fontWeight: "600" }}>
-<Link
-to="/"
-style={{
-color: "white",
-textDecoration: "none",
-letterSpacing: "0.5px",
-}}
->
-IdeaShare </Link> 
-</div>
-  <ul
-    style={{
-      display: "flex",
-      listStyle: "none",
-      gap: "22px",
-      margin: 0,
-      padding: 0,
-    }}
-  >
-    <li>
-      <Link
-        to="/"
-        style={{
-          color: "white",
-          textDecoration: "none",
-          fontSize: "16px",
-          padding: "6px 10px",
-        }}
-      >
-        Home
-      </Link>
-    </li>
+  const { user, logout, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-    <li>
-      <Link
-        to="/dashboard"
-        style={{
-          color: "white",
-          textDecoration: "none",
-          fontSize: "16px",
-          padding: "6px 10px",
-        }}
-      >
-        Explore
-      </Link>
-    </li>
+  const handleLogout = () => {
+    logout();
+    successToast("Logged out");
+    navigate("/login");
+  };
 
-    <li>
-      <Link
-        to="/add"
-        style={{
-          color: "white",
-          textDecoration: "none",
-          fontSize: "16px",
-          padding: "6px 10px",
-        }}
-      >
-        Add Idea
-      </Link>
-    </li>
+  const navClass = ({ isActive }) => (isActive ? "nav-link active" : "nav-link");
+  const addBtnClass = ({ isActive }) =>
+    isActive ? "nav-link add-btn active" : "nav-link add-btn";
+  const authClass = ({ isActive }) =>
+    isActive ? "nav-link auth-link active" : "nav-link auth-link";
 
-    <li>
-      <Link
-        to="/login"
-        style={{
-          color: "#ffeb3b",
-          textDecoration: "none",
-          fontSize: "16px",
-          fontWeight: "600",
-          padding: "6px 10px",
-        }}
-      >
-        Login
-      </Link>
-    </li>
-  </ul>
-</nav>
+  return (
+    <nav className="navbar">
+      <div className="nav-logo">
+        <NavLink to="/" className="nav-logo-link" end>
+          IdeaShare
+        </NavLink>
+      </div>
 
-);
+      <ul className="nav-links">
+        <li>
+          <NavLink to="/" className={navClass} end>
+            Home
+          </NavLink>
+        </li>
+
+        {!loading && user && (
+          <>
+            <li>
+              <NavLink to="/dashboard" className={navClass}>
+                Explore
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/add" className={addBtnClass}>
+                Add Idea
+              </NavLink>
+            </li>
+          </>
+        )}
+
+        <li>
+          {!loading ? (
+            user ? (
+              <button onClick={handleLogout} className="auth-btn btn-ghost">
+                Logout
+              </button>
+            ) : (
+              <NavLink to="/login" className={authClass}>
+                Login
+              </NavLink>
+            )
+          ) : null}
+        </li>
+      </ul>
+    </nav>
+  );
 }
 
 export default Navbar;

@@ -1,0 +1,150 @@
+:root {
+  --sidebar-bg: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+  --card-bg: #ffffff;
+  --accent: #2563eb; /* blue accent */
+  --accent-2: #16a34a; /* green for add (kept subtle) */
+  --muted: #1e40af;
+}
+
+/* Outer sidebar container (keeps layout) */
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding-right: 20px;
+  background: var(--sidebar-bg);
+  box-sizing: border-box;
+}
+
+/* A floating card inside sidebar for a modern look */
+.sidebar-card {
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.06);
+  height: calc(100% - 24px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Brand area */
+.sidebar-header {
+  margin-bottom: 18px;
+}
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 70px;
+}
+.brand-mark {
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.6px;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.14);
+}
+.brand-text {
+  color: var(--muted);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Nav list */
+.sidebar-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+}
+
+.sidebar-item,
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.12s ease;
+}
+
+/* icon color */
+.sidebar-icon svg { color: #1e3a8a; }
+
+/* Hover */
+.sidebar-item:hover,
+.sidebar-link:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, rgba(37,99,235,0.06), rgba(16,24,40,0.02));
+  box-shadow: 0 6px 14px rgba(37,99,235,0.04);
+}
+
+/* Active state (strong visual cue) */
+/* Left accent bar and brighter background */
+.sidebar-item.active,
+.sidebar-link.active {
+  background: linear-gradient(90deg, rgba(37,99,235,0.08), rgba(37,99,235,0.03));
+  box-shadow: 0 8px 22px rgba(37,99,235,0.06);
+  font-weight: 700;
+  position: relative;
+}
+.sidebar-item.active::before,
+.sidebar-link.active::before {
+  content: "";
+  position: absolute;
+  left: -18px;
+  width: 6px;
+  top: 10px;
+  bottom: 10px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #2563eb 0%, #06b6d4 100%);
+  box-shadow: 0 6px 20px rgba(37,99,235,0.08);
+}
+
+/* Add New distinct accent */
+.sidebar-link.add-active,
+.sidebar-link.add-btn,
+.sidebar-item.add-active {
+  /* if you want special visual for add, you could use --accent-2 */
+}
+
+/* Logout styling (danger-like, but kept subtle) */
+.sidebar-logout {
+  margin-top: auto;
+  color: #dc2626;
+  font-weight: 700;
+  background: transparent;
+}
+.sidebar-logout:hover {
+  background: linear-gradient(90deg, rgba(220,82,82,0.06), rgba(0,0,0,0.02));
+  transform: none;
+}
+
+/* Small label tweaks */
+.sidebar-label {
+  font-size: 15px;
+  letter-spacing: 0.1px;
+}
+
+/* Make sure nav link tags don't get default underlines in all browsers */
+.sidebar-link {
+  color: var(--muted);
+  width: 100%;
+}
+
+/* Responsive fallback: hide sidebar under 820px */
+@media (max-width: 820px) {
+  .sidebar { display: none; }
+}

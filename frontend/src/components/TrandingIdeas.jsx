@@ -1,11 +1,12 @@
 import React, { useMemo } from "react";
 
 const TrandingIdeas = ({ ideas }) => {
-  const mostLikedIdeas = useMemo(() => {
-    return [...ideas]
-      .sort((a, b) => (b.likes?.length || 0) - (a.likes?.length || 0))
-      .slice(0, 5); 
-  }, [ideas]);
+ const mostLikedIdeas = useMemo(() => {
+  return [...ideas]
+    .sort((a, b) => (b.likes || 0) - (a.likes || 0))
+    .slice(0, 3);
+}, [ideas]);
+
 
   const topContributors = useMemo(() => {
     const map = {};
@@ -19,7 +20,7 @@ const TrandingIdeas = ({ ideas }) => {
     return Object.entries(map)
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count)
-      .slice(0, 5);
+      .slice(0, 3);
   }, [ideas]);
 
   return (
@@ -79,7 +80,7 @@ const TrandingIdeas = ({ ideas }) => {
                   color: "#374151",
                 }}
               >
-                {item.title} • {item.likes?.length || 0} Likes
+                {item.title} • {item.likes || 0} Likes
               </li>
             ))}
           </ul>

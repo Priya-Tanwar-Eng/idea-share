@@ -12,11 +12,18 @@ app.use(express.json());
 
 connectDB();
 
-const authRoutes = require("./routes/authRoutes");
-const ideaRoutes = require("./routes/ideaRoutes");
+const authRoutes = require("./routes/authRoutes.js");
+const ideaRoutes = require("./routes/ideaRoutes.js");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/ideas", ideaRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
+
+module.exports = app;

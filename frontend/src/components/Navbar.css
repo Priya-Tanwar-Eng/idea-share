@@ -2,50 +2,105 @@
 display: flex;
 justify-content: space-between;
 align-items: center;
-padding: 15px 40px;
-background: #1E3A8A;
+padding: 12px 25px;
+background: #1E3A8A; /* using existing palette */
 color: white;
 position: sticky;
 top: 0;
-z-index: 10;
+z-index: 100;
+box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 
-.nav-logo a {
+.nav-logo a,
+.nav-logo .nav-logo-link {
 font-size: 22px;
 color: white;
-font-weight: bold;
+font-weight: 700;
 text-decoration: none;
+letter-spacing: 0.5px;
 }
 
+/* Nav links container */
 .nav-links {
 display: flex;
-gap: 20px;
+gap: 16px; /* consistent spacing */
 list-style: none;
+margin: 0;
+padding: 0;
+align-items: center;
 }
 
-.nav-links a {
+/* Base link styles (no underline) */
+.nav-link,
+.nav-links .auth-btn {
 color: white;
 text-decoration: none;
 font-size: 16px;
+padding: 6px 10px;
+font-weight: 600;
+display: inline-flex;
+align-items: center;
+border-radius: 8px;
+transition: background 0.15s ease, color 0.15s ease, transform 0.06s ease;
+outline: none;
 }
 
+/* Remove any underline on focus/hover */
+.nav-link:hover,
+.nav-link:focus,
+.auth-link:hover,
+.auth-link:focus,
+.auth-btn:hover,
+.auth-btn:focus {
+text-decoration: none;
+}
+
+/* Active state: subtle pill background, no underline */
+.nav-link.active {
+background: rgba(255, 255, 255, 0.08);
+color: #fff;
+box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+
+/* Add Idea active state - slightly stronger green */
 .add-btn {
 background: #22c55e;
-padding: 8px 14px;
+color: white;
+padding: 6px 10px;
+border-radius: 8px;
+text-decoration: none;
+font-weight: 700;
+}
+
+.add-btn.active {
+background: #16a34a;
+box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+}
+
+/* Login link color (no underline) */
+.auth-link {
+color: #ffeb3b;
+}
+
+/* Logout button - looks like the auth link, no underline */
+.auth-btn {
+background: transparent;
+color: #ffeb3b;
+border: none;
+cursor: pointer;
+padding: 6px 10px;
+font-weight: 600;
 border-radius: 8px;
 }
 
+/* Ghost-style border for buttons */
 .btn-ghost {
-  background: transparent;
-  border: 1px solid rgba(255,255,255,0.15);
-  color: white;
-  padding: 6px 10px;
-  border-radius: 8px;
-  cursor: pointer;
+background: transparent;
+border: 1px solid rgba(255,255,255,0.08);
 }
 
-.nav-user {
-  color: #fff;
-  align-self: center;
-  padding-right: 6px;
+/* Vertical centering */
+.nav-links li {
+display: flex;
+align-items: center;
 }

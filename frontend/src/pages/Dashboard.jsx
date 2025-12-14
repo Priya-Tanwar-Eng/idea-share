@@ -66,6 +66,18 @@ function Dashboard() {
     loadIdeas();
   }, [value]);
 
+
+  const patchIdea = (id, patchOrUpdater) => {
+   setIdeas((prev) =>
+    prev.map((it) =>
+       it._id === id
+         ? (typeof patchOrUpdater === "function"
+             ? patchOrUpdater(it)
+             : { ...it, ...patchOrUpdater })
+         : it
+     )
+   );
+  };
   return (
     <>
       <Navbar />
@@ -88,7 +100,7 @@ function Dashboard() {
             overflow: "hidden",
           }}
         >
-          <Sidebar setValue={setValue}/>
+          <Sidebar setValue={setValue} value={value}/>
         </div>
 
         <div
@@ -101,7 +113,7 @@ function Dashboard() {
             height: "100%",
           }}
         >
-          <Cards ideas={ideas} handleDelete={handleDelete} />
+          <Cards ideas={ideas} handleDelete={handleDelete} onPatchIdea={patchIdea}/>
         </div>
 
         <div
@@ -116,9 +128,9 @@ function Dashboard() {
         </div>
       </div>
 
-      <div style={{ position: "sticky", bottom: 0, zIndex: 50 }}>
+      {/* <div style={{ position: "sticky", bottom: 0, zIndex: 50 }}>
         <Footer />
-      </div>
+      </div> */}
     </>
   );
 }
