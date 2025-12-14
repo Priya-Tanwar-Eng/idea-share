@@ -1,9 +1,11 @@
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../utils/fetchAPI";
 import { successToast, errorToast } from "../utils/Toast";
 import { AuthContext } from "../context/AuthContext";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import "./AddIdea.css";
 
 function AddIdea() {
   const [title, setTitle] = useState("");
@@ -12,7 +14,11 @@ function AddIdea() {
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState("");
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleTagKeyDown = (e) => {
     if (e.key === "Enter" || e.key === "," || e.key === " ") {
@@ -36,6 +42,7 @@ function AddIdea() {
       return errorToast("Please fill all required fields");
     }
 
+    setIsSubmitting(true);
     try {
       await API.post(
         "/ideas",
@@ -45,16 +52,20 @@ function AddIdea() {
         }
       );
 
-      successToast("Idea Added Successfully");
+      successToast("Idea added successfully!");
+      // small success indicator
+      setShowSuccess(true);
 
-      setTitle("");
-      setDesc("");
-      setTags([]);
-      setCategory("");
+      // short delay to show success animation, then navigate
+      setTimeout(() => {
+        // navigate to dashboard and request the "My Ideas" filter
+        navigate("/dashboard", { state: { value: "myIdea" } });
+      }, 700);
     } catch (err) {
       console.error(err);
       const msg = err?.response?.data?.message || "Failed to add idea";
       errorToast(msg);
+      setIsSubmitting(false);
     }
   };
 
@@ -62,135 +73,106 @@ function AddIdea() {
     <>
       <Navbar />
 
-      <div
-        style={{
-          background: "#f5f7fa",
-          minHeight: "100vh",
-          padding: "40px 0",
-        }}
-      >
-        <div style={{ width: "55%", margin: "auto" }}>
-          <h2
-            style={{
-              textAlign: "center",
-              fontSize: "32px",
-              fontWeight: "700",
-              marginBottom: "20px",
-              color: "#222",
-            }}
-          >
-            Add New Idea
-          </h2>
+      <div className="add-page">
+        <div className={`add-card ${isSubmitting ? "submitting" : ""}`}>
+          <h2 className="add-title">Add New Idea</h2>
 
-          <form
-            onSubmit={handleSubmit}
-            style={{
-              background: "#fff",
-              padding: "35px",
-              borderRadius: "12px",
-              boxShadow: "0px 4px 20px rgba(0,0,0,0.08)",
-              border: "1px solid #eee",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <label style={labelStyle}>Idea Title</label>
-            <input
-              type="text"
-              placeholder="Enter idea title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              style={inputStyle}
-            />
+          <form className="add-form" onSubmit={handleSubmit}>
+            <div className="row">
+              <label>
+                <span className="label-text">Idea Title</span>
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Enter idea title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  disabled={isSubmitting}
+                />
+              </label>
 
-            <label style={labelStyle}>Description</label>
-            <textarea
-              placeholder="Enter detailed description"
-              value={desc}
-              onChange={(e) => setDesc(e.target.value)}
-              style={textareaStyle}
-            ></textarea>
-
-            <label style={labelStyle}>Tags (Press Enter)</label>
-
-            <div style={{ display: "flex", flexWrap: "wrap", marginBottom: "10px" }}>
-              {tags.map((tag, index) => (
-                <div
-                  key={index}
-                  style={{
-                    background: "#eef",
-                    padding: "6px 10px",
-                    borderRadius: "20px",
-                    marginRight: "8px",
-                    marginBottom: "8px",
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "14px",
-                    border: "1px solid #ccd",
-                  }}
+              <label>
+                <span className="label-text">Category</span>
+                <select
+                  className="input"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  disabled={isSubmitting}
                 >
-                  #{tag}
-                  <span
-                    onClick={() => removeTag(tag)}
-                    style={{
-                      marginLeft: "8px",
-                      cursor: "pointer",
-                      fontWeight: "bold",
-                      color: "#333",
-                    }}
-                  >
-                    ✖
-                  </span>
-                </div>
-              ))}
+                  <option value="">Select Category</option>
+                  <option value="Tech">Tech</option>
+                  <option value="Health">Health</option>
+                  <option value="Education">Education</option>
+                  <option value="Business">Business</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Social">Social</option>
+                </select>
+              </label>
             </div>
 
-            <input
-              type="text"
-              placeholder="Type and press Enter"
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              onKeyDown={handleTagKeyDown}
-              style={inputStyle}
-            />
+            <label className="full">
+              <span className="label-text">Description</span>
+              <textarea
+                className="textarea"
+                placeholder="Enter detailed description"
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
+                disabled={isSubmitting}
+              />
+            </label>
 
-            <label style={labelStyle}>Category</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              style={{
-                ...inputStyle,
-                height: "48px",
-                cursor: "pointer",
-              }}
-            >
-              <option value="">Select Category</option>
-              <option value="Tech">Tech</option>
-              <option value="Health">Health</option>
-              <option value="Education">Education</option>
-              <option value="Business">Business</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Social">Social</option>
-            </select>
+            <label className="full">
+              <span className="label-text">Tags (Press Enter)</span>
+
+              <div className="tags-row">
+                {tags.map((tag, index) => (
+                  <div className="tag-chip" key={index}>
+                    #{tag}
+                    <button
+                      type="button"
+                      className="tag-remove"
+                      onClick={() => removeTag(tag)}
+                      aria-label={`Remove ${tag}`}
+                    >
+                      ✖
+                    </button>
+                  </div>
+                ))}
+
+                <input
+                  className="tag-input"
+                  type="text"
+                  placeholder="Type and press Enter"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={handleTagKeyDown}
+                  disabled={isSubmitting}
+                />
+              </div>
+            </label>
 
             <button
               type="submit"
-              style={{
-                padding: "14px",
-                width: "100%",
-                background: "#222",
-                color: "white",
-                border: "none",
-                borderRadius: "8px",
-                fontSize: "17px",
-                cursor: "pointer",
-                fontWeight: "600",
-                marginTop: "15px",
-              }}
+              className={`submit-btn ${isSubmitting ? "loading" : ""}`}
+              disabled={isSubmitting}
             >
-              Submit Idea
+              {isSubmitting ? (
+                <>
+                  <span className="spinner" aria-hidden></span>
+                  <span>Submitting...</span>
+                </>
+              ) : (
+                "Submit Idea"
+              )}
             </button>
           </form>
+
+          <div className={`success-badge ${showSuccess ? "show" : ""}`} aria-hidden>
+            <svg className="check" viewBox="0 0 24 24" width="48" height="48" fill="none">
+              <circle cx="12" cy="12" r="11" stroke="white" strokeWidth="2" opacity="0.14" />
+              <path d="M6 12.3l3 3 7-7" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
         </div>
       </div>
 
@@ -198,34 +180,5 @@ function AddIdea() {
     </>
   );
 }
-
-const labelStyle = {
-  fontWeight: "600",
-  fontSize: "15px",
-  marginBottom: "6px",
-  color: "#333",
-};
-
-const inputStyle = {
-  width: "100%",
-  padding: "12px",
-  borderRadius: "8px",
-  border: "1px solid #ccc",
-  marginBottom: "20px",
-  fontSize: "15px",
-  outline: "none",
-};
-
-const textareaStyle = {
-  width: "100%",
-  height: "140px",
-  padding: "12px",
-  borderRadius: "8px",
-  border: "1px solid #ccc",
-  marginBottom: "25px",
-  fontSize: "15px",
-  outline: "none",
-  resize: "none",
-};
 
 export default AddIdea;

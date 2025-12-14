@@ -7,10 +7,12 @@ import TrandingIdeas from "../components/TrandingIdeas";
 import Cards from "../components/Cards";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { useLocation } from "react-router-dom"; // 🔧 new
 
 function Dashboard() {
   const [ideas, setIdeas] = useState([]);
   const [value, setValue] = useState("");
+  const location = useLocation(); // 🔧 new
   const { user, loading } = useContext(AuthContext);
   if (loading) {
     return <p style={{ textAlign: "center", marginTop: "20px" }}>Loading...</p>;
@@ -66,6 +68,12 @@ function Dashboard() {
     loadIdeas();
   }, [value]);
 
+  // If navigated here with state (e.g., { value: 'myIdea' }), apply it
+  useEffect(() => {
+    if (location?.state?.value) {
+      setValue(location.state.value);
+    }
+  }, [location?.state]);
 
   const patchIdea = (id, patchOrUpdater) => {
    setIdeas((prev) =>

@@ -11,7 +11,6 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [busy, setBusy] = useState(false);
-  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -24,10 +23,9 @@ function Signup() {
 
     try {
       const res = await API.post("/auth/register", { name, email, password });
-      const payload = { ...res.data.user, token: res.data.token };
-      login(payload);
-      successToast("Account created");
-      navigate("/dashboard");
+      // After successful signup, redirect to login (no auto-login)
+      successToast("Account created. Please log in.");
+      navigate("/login");
     } catch (err) {
       const msg = err?.response?.data?.message || "Signup failed";
       errorToast(msg);
