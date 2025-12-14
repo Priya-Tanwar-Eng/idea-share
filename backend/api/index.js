@@ -21,7 +21,12 @@ app.use(cors({
 
 app.options("*", cors());
 
-// connectDB();
+connectDB();
+
+app.get("/api/test", (req, res) => {
+  res.json({ ok: true });
+});
+
 
 const authRoutes = require("../routes/authRoutes");
 const ideaRoutes = require("../routes/ideaRoutes");
