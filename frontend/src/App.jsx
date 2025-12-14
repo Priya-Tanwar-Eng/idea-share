@@ -1,7 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
-import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -10,8 +7,6 @@ import AddIdea from "./pages/AddIdea";
 import EditIdea from "./pages/EditIdea";
 import { ToastContainer } from "react-toastify";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Footer from "./components/Footer";
-
 function App() {
   return (
     <BrowserRouter>

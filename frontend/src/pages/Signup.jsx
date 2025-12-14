@@ -22,7 +22,7 @@ function Signup() {
     setBusy(true);
 
     try {
-      const res = await API.post("/auth/register", { name, email, password });
+      const res = await API.post("/api/auth/register", { name, email, password });
       // After successful signup, redirect to login (no auto-login)
       successToast("Account created. Please log in.");
       navigate("/login");

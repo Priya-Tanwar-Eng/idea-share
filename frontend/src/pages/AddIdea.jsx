@@ -45,7 +45,7 @@ function AddIdea() {
     setIsSubmitting(true);
     try {
       await API.post(
-        "/ideas",
+        "/api/ideas",
         { title, desc, tags, category },
         {
           headers: { Authorization: `Bearer ${user.token}` },

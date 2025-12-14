@@ -20,7 +20,7 @@ function EditIdea() {
   useEffect(() => {
     const fetchIdea = async () => {
       try {
-        const res = await API.get(`/ideas/${id}`, {
+        const res = await API.get(`/api/ideas/${id}`, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
         const idea = res.data;
@@ -63,7 +63,7 @@ function EditIdea() {
 
     try {
       await API.put(
-        `/ideas/${id}`,
+        `/api/ideas/${id}`,
         { title, desc, tags, category },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );

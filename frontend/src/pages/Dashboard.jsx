@@ -30,13 +30,13 @@ function Dashboard() {
     try {
       if (!user?.token) return;
       if (value === "myIdea") {
-         const res = await API.get(`/ideas/user/${user.id}`, {
+         const res = await API.get(`/api/ideas/user/${user.id}`, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
 
         setIdeas(res?.data || []);
       } else {
-        const res = await API.get("/ideas", {
+        const res = await API.get("/api/ideas", {
           headers: { Authorization: `Bearer ${user.token}` },
         });
 
@@ -52,7 +52,7 @@ function Dashboard() {
     try {
       if (!user?.token) return;
 
-      await API.delete(`/ideas/${id}`, {
+      await API.delete(`/api/ideas/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
 
@@ -115,7 +115,7 @@ function Dashboard() {
           style={{
             backgroundColor: "#fff",
             padding: "10px",
-            borderRadius: "12px",
+            // borderRadius: "12px",
             boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
             overflowY: "auto",
             height: "100%",

@@ -44,7 +44,7 @@ const Cards = ({ ideas, handleDelete,onPatchIdea = () => {} }) => {
   });
 
   try {
-    const res = await API.put(`/ideas/like/${id}`, {}, {
+    const res = await API.put(`/api/ideas/like/${id}`, {}, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
 
@@ -102,7 +102,7 @@ const Cards = ({ ideas, handleDelete,onPatchIdea = () => {} }) => {
   setShowComments((p) => ({ ...p, [id]: true }));
 
   try {
-    const res = await API.post(`/ideas/${id}/comment`, { text }, {
+    const res = await API.post(`/api/ideas/${id}/comment`, { text }, {
       headers: { Authorization: `Bearer ${user.token}` },
     });
     // If server returned comments/idea, reconcile
