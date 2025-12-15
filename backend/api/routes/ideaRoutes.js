@@ -1,6 +1,6 @@
 const express = require("express");
 const { createIdea, getIdeas, updateIdea, deleteIdea, getIdeaById,likeWithId,getIdeasByUser, addComment} = require("../controllers/ideaController.js");   
-const authMiddleware = require("../middleware/authMiddleware.js");
+const authMiddleware = require("../controllers/middleware/authMiddleware.js");
 const router = express.Router();
 
 router.get("/user/:id", authMiddleware,  getIdeasByUser);  
