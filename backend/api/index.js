@@ -1,13 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
-const connectDB = require("../config/dbConn");
 
-dotenv.config();
+const auth = require("./auth");
+const ideas = require("./ideas");
 
 const app = express();
-
-app.use(express.json());
 
 app.use(cors({
   origin: [
@@ -15,23 +12,15 @@ app.use(cors({
     "https://idea-share-3joy.vercel.app"
   ],
   credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
-app.options("*", cors());
+app.use(express.json());
 
-connectDB();
+app.use("/api/auth", auth);
+app.use("/api/ideas", ideas);
 
 app.get("/api/test", (req, res) => {
   res.json({ ok: true });
 });
-
-
-const authRoutes = require("../routes/authRoutes");
-const ideaRoutes = require("../routes/ideaRoutes");
-
-app.use("/api/auth", authRoutes);
-app.use("/api/ideas", ideaRoutes);
 
 module.exports = app;
