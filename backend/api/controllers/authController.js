@@ -1,4 +1,4 @@
-const User = require("../models/user.js");  
+const User = require("../models/user");  
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -29,17 +29,11 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   try {
-    console.log("BODY:", req.body);
-
-    return res.status(200).json({
-      success: true,
-      token: "test-token",
-      user: { id: 1, name: "Priya" }
-    });
-  } catch (err) {
-    console.error("LOGIN ERROR:", err);
-    return res.status(500).json({ message: "Login failed" });
+    console.log("User model:", User);
+    res.json({ ok: true });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "fail" });
   }
 };
-
 module.exports = { registerUser, loginUser };
