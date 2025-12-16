@@ -1,5 +1,5 @@
 const express = require("express");
-const { createIdea, getIdeas, updateIdea, deleteIdea, getIdeaById,likeWithId,getIdeasByUser, addComment} = require("../controllers/ideaController.js");   
+const { createIdea, getIdeas, updateIdea, deleteIdea, getIdeaById,likeWithId,getIdeasByUser, addComment} = require("../controllers/ideaController");   
 const authMiddleware = require("../controllers/middleware/authMiddleware.js");
 const router = express.Router();
 

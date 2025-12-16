@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const connectDB = require("./config/db");
+const connectDB = require("./config/dbConn");
 
 const auth = require("./routes/authRoutes");
 const ideas = require("./routes/ideaRoutes");
@@ -17,7 +17,7 @@ app.use(cors({
 
 app.use(express.json());
 
-// ✅ connect DB once
+// ✅ connect DB ONLY once safely
 connectDB();
 
 app.use("/api/auth", auth);
