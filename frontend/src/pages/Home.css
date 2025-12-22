@@ -195,3 +195,71 @@
 
   .hero-illustration { max-width: 320px; }
 }
+
+/* Mobile-only adjustments — preserves desktop design */
+@media (max-width: 640px) {
+  .hero {
+    grid-template-columns: 1fr;      /* stack columns */
+    padding: 18px 14px 0px 14px;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .hero-right {
+    /* margin-top: 12px; */
+    order: -1;                      /* show illustration above text */
+    margin-bottom: 12px;
+  }
+
+  .hero-left {
+    text-align: center;             /* center on small screens */
+    padding: 6px;
+  }
+
+  .hero-title {
+    font-size: 28px;                /* smaller, still same style */
+    line-height: 1.06;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    margin: 0 auto 18px;
+    max-width: 46ch;
+  }
+
+  .hero-stats{
+    justify-content: center;        /* center stats */
+  }
+
+  .hero-ctas {
+    justify-content: center;        /* center buttons */
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .hero-illustration {
+    max-width: 300px;
+    width: 80%;
+  }
+
+  .features {
+    padding: 0 18px 16px;
+  }
+
+  .features-title{
+    text-align: center;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;     /* single-column features */
+    gap: 12px;
+  }
+
+  .feature-card {
+    padding: 14px;
+  }
+
+  .home-main {
+    padding-bottom: 32px;
+  }
+}
