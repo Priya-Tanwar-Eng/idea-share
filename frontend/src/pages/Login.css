@@ -95,12 +95,21 @@
     border-radius: 12px;
     text-align: center;
   }
-  .hero-title { font-size: 26px; }
+  .hero-title {
+     font-size: 26px;
+ }
 
   .login-card {
     padding: 24px;
     border-radius: 10px;
   }
+}
+
+.card-title{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;    
+    font-weight: 700;
 }
 
 /* NEW: Equalize heights on larger screens */
