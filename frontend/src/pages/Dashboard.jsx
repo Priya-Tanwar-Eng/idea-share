@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import API from "../utils/fetchAPI";
 import { successToast, errorToast } from "../utils/Toast";
@@ -6,42 +7,54 @@ import Sidebar from "../components/Sidebar";
 import TrandingIdeas from "../components/TrandingIdeas";
 import Cards from "../components/Cards";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { useLocation } from "react-router-dom"; // 🔧 new
+import { useLocation } from "react-router-dom";
+import "./Dashboard.css";
+
+/* ── Inline mobile SVG icons ── */
+const AllIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none">
+    <rect x="3" y="3" width="7" height="7" rx="2" fill="currentColor" />
+    <rect x="14" y="3" width="7" height="7" rx="2" fill="currentColor" opacity="0.85" />
+    <rect x="3" y="14" width="7" height="7" rx="2" fill="currentColor" opacity="0.7" />
+    <rect x="14" y="14" width="7" height="7" rx="2" fill="currentColor" opacity="0.55" />
+  </svg>
+);
+const MineIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none">
+    <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="currentColor" />
+    <path d="M4 20a8 8 0 0 1 16 0" fill="currentColor" opacity="0.9" />
+  </svg>
+);
+const AddIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none">
+    <path d="M12 5v14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+);
+const TrendIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none">
+    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <polyline points="16 7 22 7 22 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
 function Dashboard() {
   const [ideas, setIdeas] = useState([]);
   const [value, setValue] = useState("");
-  const location = useLocation(); // 🔧 new
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const location = useLocation();
   const { user, loading } = useContext(AuthContext);
-  if (loading) {
-    return <p style={{ textAlign: "center", marginTop: "20px" }}>Loading...</p>;
-  }
+  const navigate = useNavigate();
 
-  if (!user) {
-    return (
-      <p style={{ textAlign: "center", marginTop: "20px" }}>
-        Please log in to view your dashboard.
-      </p>
-    );
-  }
+  if (loading) return <p style={{ textAlign: "center", marginTop: "20px" }}>Loading...</p>;
+  if (!user) return <p style={{ textAlign: "center", marginTop: "20px" }}>Please log in to view your dashboard.</p>;
 
   const loadIdeas = async () => {
     try {
       if (!user?.token) return;
-      if (value === "myIdea") {
-         const res = await API.get(`/api/ideas/user/${user.id}`, {
-          headers: { Authorization: `Bearer ${user.token}` },
-        });
-
-        setIdeas(res?.data || []);
-      } else {
-        const res = await API.get("/api/ideas", {
-          headers: { Authorization: `Bearer ${user.token}` },
-        });
-
-        setIdeas(res?.data || []);
-      }
+      const url = value === "myIdea" ? `/api/ideas/user/${user.id}` : "/api/ideas";
+      const res = await API.get(url, { headers: { Authorization: `Bearer ${user.token}` } });
+      setIdeas(res?.data || []);
     } catch (err) {
       console.error(err);
       errorToast("Failed to load ideas");
@@ -51,11 +64,7 @@ function Dashboard() {
   const handleDelete = async (id) => {
     try {
       if (!user?.token) return;
-
-      await API.delete(`/api/ideas/${id}`, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-
+      await API.delete(`/api/ideas/${id}`, { headers: { Authorization: `Bearer ${user.token}` } });
       successToast("Idea deleted");
       loadIdeas();
     } catch (err) {
@@ -64,81 +73,76 @@ function Dashboard() {
     }
   };
 
-  useEffect(() => {
-    loadIdeas();
-  }, [value]);
+  const patchIdea = (id, patchOrUpdater) => {
+    setIdeas((prev) =>
+      prev.map((it) =>
+        it._id === id
+          ? typeof patchOrUpdater === "function"
+            ? patchOrUpdater(it)
+            : { ...it, ...patchOrUpdater }
+          : it
+      )
+    );
+  };
 
-  // If navigated here with state (e.g., { value: 'myIdea' }), apply it
+  useEffect(() => { loadIdeas(); }, [value]);
+
   useEffect(() => {
-    if (location?.state?.value) {
-      setValue(location.state.value);
-    }
+    if (location?.state?.value) setValue(location.state.value);
   }, [location?.state]);
 
-  const patchIdea = (id, patchOrUpdater) => {
-   setIdeas((prev) =>
-    prev.map((it) =>
-       it._id === id
-         ? (typeof patchOrUpdater === "function"
-             ? patchOrUpdater(it)
-             : { ...it, ...patchOrUpdater })
-         : it
-     )
-   );
-  };
   return (
     <>
       <Navbar />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "20% 60% 20%",
-          backgroundColor: "#f1f5f9",
-          height: "calc(100vh - 120px)",
-          padding: "20px 30px",
-          overflow: "hidden", 
-        }}
-      >
-        <div
-          style={{
-            position: "sticky",
-            top: "80px",
-            height: "80vh",
-            overflow: "hidden",
-          }}
-        >
-          <Sidebar setValue={setValue} value={value}/>
+      <div className="dashboard-page">
+        {/* ── LEFT SIDEBAR ── */}
+        <div className="dashboard-left">
+          <Sidebar setValue={setValue} value={value} />
         </div>
 
-        <div
-          style={{
-            backgroundColor: "#fff",
-            padding: "10px",
-            // borderRadius: "12px",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-            overflowY: "auto",
-            height: "100%",
-          }}
-        >
-          <Cards ideas={ideas} handleDelete={handleDelete} onPatchIdea={patchIdea}/>
+        {/* ── CENTER FEED ── */}
+        <div className="dashboard-feed">
+          <Cards ideas={ideas} handleDelete={handleDelete} onPatchIdea={patchIdea} />
         </div>
 
-        <div
-          style={{
-            position: "sticky",
-            top: "80px",
-            height: "80vh",
-            overflow: "hidden",
-          }}
-        >
+        {/* ── RIGHT TRENDING PANEL ── */}
+        <div className="dashboard-right">
           <TrandingIdeas ideas={ideas} />
         </div>
       </div>
 
-      {/* <div style={{ position: "sticky", bottom: 0, zIndex: 50 }}>
-        <Footer />
-      </div> */}
+      {/* ── TRENDING DRAWER (tablet/mobile) ── */}
+      <div
+        className={`drawer-overlay${drawerOpen ? " open" : ""}`}
+        onClick={() => setDrawerOpen(false)}
+      />
+      <div className={`drawer${drawerOpen ? " open" : ""}`}>
+        <div className="drawer-handle" />
+        <TrandingIdeas ideas={ideas} />
+      </div>
+
+      {/* ── BOTTOM MOBILE NAV ── */}
+      <nav className="mobile-nav" aria-label="Mobile navigation">
+        <ul>
+          <li className={value === "" ? "active" : ""} onClick={() => setValue("")}>
+            <AllIcon />
+            All
+          </li>
+          <li className={value === "myIdea" ? "active" : ""} onClick={() => setValue("myIdea")}>
+            <MineIcon />
+            Mine
+          </li>
+          <li onClick={() => navigate("/add")}>
+            <AddIcon />
+            Add
+          </li>
+          <li onClick={() => setDrawerOpen(true)}>
+            <TrendIcon />
+            Trending
+          </li>
+        </ul>
+      </nav>
     </>
   );
 }

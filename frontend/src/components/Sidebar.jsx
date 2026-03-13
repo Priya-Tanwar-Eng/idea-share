@@ -94,7 +94,7 @@ const Sidebar = ({ setValue, value }) => {
               </NavLink>
             </li>
 
-            <li>
+            {/* <li>
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>
@@ -104,7 +104,7 @@ const Sidebar = ({ setValue, value }) => {
                 <Icon name="profile" />
                 <span className="sidebar-label">Profile</span>
               </NavLink>
-            </li>
+            </li> */}
 
             <li className="sidebar-item sidebar-logout" onClick={handleLogout}>
               <Icon name="logout" />

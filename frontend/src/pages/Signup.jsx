@@ -1,9 +1,9 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../utils/fetchAPI";
-import { AuthContext } from "../context/AuthContext";
 import { successToast, errorToast } from "../utils/Toast";
 import Navbar from "../components/Navbar";
+import "./Signup.css";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -20,10 +20,8 @@ function Signup() {
     if (password !== confirm)
       return errorToast("Passwords do not match");
     setBusy(true);
-
     try {
-      const res = await API.post("/api/auth/register", { name, email, password });
-      // After successful signup, redirect to login (no auto-login)
+      await API.post("/api/auth/register", { name, email, password });
       successToast("Account created. Please log in.");
       navigate("/login");
     } catch (err) {
@@ -37,98 +35,58 @@ function Signup() {
   return (
     <>
       <Navbar />
-      <div
-        style={{
-          width: "100%",
-          minHeight: "90vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "linear-gradient(135deg,#e3f2fd,#bbdefb)",
-          padding: "20px",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            maxWidth: "420px",
-            background: "#fff",
-            padding: "30px",
-            borderRadius: "10px",
-            boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
-          }}
-        >
-          <h2
-            style={{
-              textAlign: "center",
-              marginBottom: "25px",
-              fontSize: "28px",
-              fontWeight: "600",
-              color: "#0d47a1",
-            }}
-          >
-            Create Account
-          </h2>
+      <div className="signup-page">
+        <div className="signup-card">
+          <h2 className="signup-title">Create Account</h2>
 
-          <form onSubmit={handleSubmit}>
-            <label style={{ fontWeight: "500" }}>Name</label>
+          <form onSubmit={handleSubmit} className="signup-form">
+            <label className="form-label">Name</label>
             <input
+              className="form-input"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Your name"
-              style={inputStyle}
             />
 
-            <label style={{ fontWeight: "500" }}>Email</label>
+            <label className="form-label">Email</label>
             <input
+              className="form-input"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email@example.com"
-              style={inputStyle}
             />
 
-            <label style={{ fontWeight: "500" }}>Password</label>
+            <label className="form-label">Password</label>
             <input
+              className="form-input"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Choose password"
-              style={inputStyle}
             />
 
-            <label style={{ fontWeight: "500" }}>Confirm Password</label>
+            <label className="form-label">Confirm Password</label>
             <input
+              className="form-input"
               type="password"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
               placeholder="Confirm password"
-              style={inputStyle}
             />
 
             <button
               type="submit"
               disabled={busy}
-              style={{
-                width: "100%",
-                padding: "12px",
-                marginTop: "10px",
-                border: "none",
-                background: "#0d47a1",
-                color: "white",
-                fontSize: "16px",
-                borderRadius: "6px",
-                cursor: "pointer",
-                fontWeight: "600",
-                opacity: busy ? 0.7 : 1,
-              }}
+              className="btn-primary"
+              style={{ opacity: busy ? 0.7 : 1 }}
             >
               {busy ? "Creating..." : "Sign Up"}
             </button>
           </form>
 
-          <p style={{ textAlign: "center", marginTop: "15px" }}>
+          <p className="signup-prompt">
             Already have an account?{" "}
-            <Link style={{ color: "#0d47a1", fontWeight: "600" }} to="/login">
+            <Link className="link-primary" to="/login">
               Login
             </Link>
           </p>
@@ -137,14 +95,5 @@ function Signup() {
     </>
   );
 }
-
-const inputStyle = {
-  width: "100%",
-  padding: "10px",
-  margin: "6px 0 12px 0",
-  borderRadius: "6px",
-  border: "1px solid #bdbdbd",
-  fontSize: "15px",
-};
 
 export default Signup;

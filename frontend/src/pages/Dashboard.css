@@ -1,0 +1,159 @@
+
+
+.dashboard-page {
+  display: grid;
+  grid-template-columns: 240px 1fr 240px;
+  gap: 0;
+  background: #f1f5f9;
+  min-height: calc(100vh - 60px);
+  align-items: start;
+}
+
+/* ── CENTER FEED ── */
+.dashboard-feed {
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  min-height: calc(100vh - 60px);
+  overflow-y: auto;
+  padding: 8px;
+}
+
+/* ── LEFT / RIGHT PANELS ── */
+.dashboard-left,
+.dashboard-right {
+  position: sticky;
+  top: 60px;          /* below navbar */
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  padding: 16px 12px;
+}
+
+/* ── MOBILE NAV BAR (bottom) ── */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: #fff;
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  padding: 8px 0 env(safe-area-inset-bottom, 8px);
+}
+
+.mobile-nav ul {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobile-nav li {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: color 0.15s ease;
+}
+
+.mobile-nav li.active {
+  color: #2563eb;
+}
+
+.mobile-nav li svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ── DRAWER OVERLAY (for trending on mobile) ── */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 180;
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.drawer-overlay.open {
+  opacity: 1;
+}
+
+.drawer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 190;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 20px 16px calc(80px + env(safe-area-inset-bottom, 0px));
+  max-height: 70vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.22, 0.9, 0.36, 1);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.drawer.open {
+  transform: translateY(0);
+}
+
+.drawer-handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(15, 23, 42, 0.12);
+  border-radius: 2px;
+  margin: 0 auto 16px;
+}
+
+/* ── RESPONSIVE BREAKPOINTS ── */
+
+/* Tablet: hide right panel, show trending in drawer */
+@media (max-width: 1024px) {
+  .dashboard-page {
+    grid-template-columns: 220px 1fr;
+  }
+
+  .dashboard-right {
+    display: none;
+  }
+
+  .drawer-overlay {
+    display: block;
+  }
+}
+
+/* Mobile: full-width feed, bottom nav */
+@media (max-width: 768px) {
+  .dashboard-page {
+    grid-template-columns: 1fr;
+    padding-bottom: 70px; /* space for mobile nav */
+  }
+
+  .dashboard-left {
+    display: none;
+  }
+
+  .dashboard-right {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: block;
+  }
+
+  .dashboard-feed {
+    min-height: unset;
+  }
+}

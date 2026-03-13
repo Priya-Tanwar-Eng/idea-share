@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { successToast, errorToast } from "../utils/Toast";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import "./EditIdea.css";
 
 function EditIdea() {
   const { id } = useParams();
@@ -16,6 +17,7 @@ function EditIdea() {
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState([]);
   const [category, setCategory] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchIdea = async () => {
@@ -24,11 +26,9 @@ function EditIdea() {
           headers: { Authorization: `Bearer ${user.token}` },
         });
         const idea = res.data;
-
         setTitle(idea.title);
         setDesc(idea.desc);
         setCategory(idea.category);
-
         if (Array.isArray(idea.tags)) {
           setTags(idea.tags);
         } else if (typeof idea.tags === "string") {
@@ -39,7 +39,6 @@ function EditIdea() {
         errorToast("Idea not found");
       }
     };
-
     fetchIdea();
   }, []);
 
@@ -54,25 +53,25 @@ function EditIdea() {
     }
   };
 
-  const removeTag = (tag) => {
-    setTags(tags.filter((t) => t !== tag));
-  };
+  const removeTag = (tag) => setTags(tags.filter((t) => t !== tag));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!title || !desc || !category) return errorToast("Please fill all required fields");
+    setIsSubmitting(true);
     try {
       await API.put(
         `/api/ideas/${id}`,
         { title, desc, tags, category },
         { headers: { Authorization: `Bearer ${user.token}` } }
       );
-
       successToast("Idea Updated!");
       navigate("/dashboard");
     } catch (err) {
       console.error(err);
       errorToast("Update failed");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -80,135 +79,90 @@ function EditIdea() {
     <>
       <Navbar />
 
-      <div
-        style={{
-          background: "#f5f7fa",
-          minHeight: "100vh",
-          padding: "40px 0",
-        }}
-      >
-        <div style={{ width: "55%", margin: "auto" }}>
-          <h2
-            style={{
-              textAlign: "center",
-              fontSize: "32px",
-              fontWeight: "700",
-              marginBottom: "25px",
-              color: "#222",
-            }}
-          >
-            Edit Your Idea
-          </h2>
+      <div className="edit-page">
+        <div className="edit-card">
+          <h2 className="edit-title">Edit Your Idea</h2>
 
-          <div
-            style={{
-              background: "#fff",
-              padding: "35px",
-              borderRadius: "12px",
-              boxShadow: "0px 4px 20px rgba(0,0,0,0.08)",
-              border: "1px solid #eee",
-            }}
-          >
-            <form style={{ display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
-            
-              <label style={labelStyle}>Title</label>
-              <input
-                type="text"
-                value={title}
-                placeholder="Update your title..."
-                onChange={(e) => setTitle(e.target.value)}
-                style={inputStyle}
-              />
+          <form className="edit-form" onSubmit={handleSubmit}>
+            <div className="edit-row">
+              <label>
+                <span className="label-text">Title</span>
+                <input
+                  className="input"
+                  type="text"
+                  value={title}
+                  placeholder="Update your title..."
+                  onChange={(e) => setTitle(e.target.value)}
+                  disabled={isSubmitting}
+                />
+              </label>
 
-              <label style={labelStyle}>Description</label>
+              <label>
+                <span className="label-text">Category</span>
+                <select
+                  className="input"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  disabled={isSubmitting}
+                >
+                  <option value="">Select Category</option>
+                  <option value="Tech">Tech</option>
+                  <option value="Health">Health</option>
+                  <option value="Education">Education</option>
+                  <option value="Business">Business</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Social">Social</option>
+                </select>
+              </label>
+            </div>
+
+            <label className="full">
+              <span className="label-text">Description</span>
               <textarea
+                className="textarea"
                 value={desc}
                 placeholder="Update your idea description..."
                 onChange={(e) => setDesc(e.target.value)}
-                style={textareaStyle}
-              ></textarea>
+                disabled={isSubmitting}
+              />
+            </label>
 
-              <label style={labelStyle}>Tags</label>
-
-              <div style={{ display: "flex", flexWrap: "wrap", marginBottom: "10px" }}>
+            <label className="full">
+              <span className="label-text">Tags (Press Enter)</span>
+              <div className="tags-row">
                 {tags.map((tag, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      background: "#eef",
-                      padding: "6px 12px",
-                      borderRadius: "20px",
-                      marginRight: "8px",
-                      marginBottom: "8px",
-                      display: "flex",
-                      alignItems: "center",
-                      fontSize: "14px",
-                      border: "1px solid #ccd",
-                    }}
-                  >
+                  <div className="tag-chip" key={index}>
                     #{tag}
-                    <span
+                    <button
+                      type="button"
+                      className="tag-remove"
                       onClick={() => removeTag(tag)}
-                      style={{
-                        marginLeft: "8px",
-                        cursor: "pointer",
-                        fontWeight: "600",
-                        color: "#333",
-                      }}
+                      aria-label={`Remove ${tag}`}
                     >
                       ✖
-                    </span>
+                    </button>
                   </div>
                 ))}
+                <input
+                  className="tag-input"
+                  type="text"
+                  value={tagInput}
+                  placeholder="Type and press Enter"
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyDown={handleTagKeyDown}
+                  disabled={isSubmitting}
+                />
               </div>
+            </label>
 
-              <input
-                type="text"
-                value={tagInput}
-                placeholder="Type and press Enter"
-                onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={handleTagKeyDown}
-                style={inputStyle}
-              />
-
-              <label style={labelStyle}>Category</label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                style={{
-                  ...inputStyle,
-                  height: "45px",
-                  cursor: "pointer",
-                }}
-              >
-                <option value="">Select Category</option>
-                <option value="Technology">Technology</option>
-                <option value="Education">Education</option>
-                <option value="Business">Business</option>
-                <option value="Health">Health</option>
-                <option value="Social">Social</option>
-                <option value="Other">Other</option>
-              </select>
-
-              <button
-                type="submit"
-                style={{
-                  padding: "12px 20px",
-                  width: "100%",
-                  background: "#222",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "8px",
-                  fontSize: "16px",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                  marginTop: "10px",
-                }}
-              >
-                Update Idea
-              </button>
-            </form>
-          </div>
+            <button
+              type="submit"
+              className="submit-btn"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Updating..." : "Update Idea"}
+            </button>
+          </form>
         </div>
       </div>
 
@@ -216,34 +170,5 @@ function EditIdea() {
     </>
   );
 }
-
-const labelStyle = {
-  fontWeight: "600",
-  fontSize: "15px",
-  marginBottom: "6px",
-  color: "#333",
-};
-
-const inputStyle = {
-  width: "100%",
-  padding: "12px",
-  borderRadius: "8px",
-  border: "1px solid #ccc",
-  marginBottom: "20px",
-  fontSize: "15px",
-  outline: "none",
-};
-
-const textareaStyle = {
-  width: "100%",
-  height: "140px",
-  padding: "12px",
-  borderRadius: "8px",
-  border: "1px solid #ccc",
-  marginBottom: "25px",
-  fontSize: "15px",
-  outline: "none",
-  resize: "none",
-};
 
 export default EditIdea;

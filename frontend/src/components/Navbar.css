@@ -1,106 +1,182 @@
+/* Navbar.css — responsive with hamburger */
+
 .navbar {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 12px 25px;
-background: #1E3A8A; /* using existing palette */
-color: white;
-position: sticky;
-top: 0;
-z-index: 100;
-box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  background: #1E3A8A;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 .nav-logo a,
 .nav-logo .nav-logo-link {
-font-size: 22px;
-color: white;
-font-weight: 700;
-text-decoration: none;
-letter-spacing: 0.5px;
+  font-size: 22px;
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.5px;
 }
 
-/* Nav links container */
+/* Desktop nav links */
 .nav-links {
-display: flex;
-gap: 16px; /* consistent spacing */
-list-style: none;
-margin: 0;
-padding: 0;
-align-items: center;
+  display: flex;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
 }
 
-/* Base link styles (no underline) */
 .nav-link,
 .nav-links .auth-btn {
-color: white;
-text-decoration: none;
-font-size: 16px;
-padding: 6px 10px;
-font-weight: 600;
-display: inline-flex;
-align-items: center;
-border-radius: 8px;
-transition: background 0.15s ease, color 0.15s ease, transform 0.06s ease;
-outline: none;
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  padding: 6px 10px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 8px;
+  transition: background 0.15s ease, color 0.15s ease;
+  outline: none;
 }
 
-/* Remove any underline on focus/hover */
 .nav-link:hover,
 .nav-link:focus,
 .auth-link:hover,
 .auth-link:focus,
 .auth-btn:hover,
 .auth-btn:focus {
-text-decoration: none;
+  text-decoration: none;
 }
 
-/* Active state: subtle pill background, no underline */
 .nav-link.active {
-background: rgba(255, 255, 255, 0.08);
-color: #fff;
-box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
 }
 
-/* Add Idea active state - slightly stronger green */
 .add-btn {
-background: #22c55e;
-color: white;
-padding: 6px 10px;
-border-radius: 8px;
-text-decoration: none;
-font-weight: 700;
+  background: #22c55e;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
 }
 
 .add-btn.active {
-background: #16a34a;
-box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  background: #16a34a;
 }
 
-/* Login link color (no underline) */
 .auth-link {
-color: #ffeb3b;
+  color: #ffeb3b;
 }
 
-/* Logout button - looks like the auth link, no underline */
 .auth-btn {
-background: transparent;
-color: #ffeb3b;
-border: none;
-cursor: pointer;
-padding: 6px 10px;
-font-weight: 600;
-border-radius: 8px;
+  background: transparent;
+  color: #ffeb3b;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  font-weight: 600;
+  border-radius: 8px;
+  font-size: 15px;
 }
 
-/* Ghost-style border for buttons */
 .btn-ghost {
-background: transparent;
-border: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Vertical centering */
 .nav-links li {
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
+}
+
+/* ── HAMBURGER BUTTON ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.hamburger:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: white;
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Open state: X shape */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ── MOBILE DROPDOWN ── */
+.nav-mobile-menu {
+  display: none;
+  flex-direction: column;
+  background: #1E3A8A;
+  padding: 8px 16px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+.nav-mobile-menu.open {
+  display: flex;
+}
+
+.nav-mobile-menu .nav-link,
+.nav-mobile-menu .add-btn,
+.nav-mobile-menu .auth-link,
+.nav-mobile-menu .auth-btn {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 15px;
+  border-radius: 8px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .nav-links {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .navbar {
+    position: relative; /* so mobile menu positions correctly */
+  }
 }
