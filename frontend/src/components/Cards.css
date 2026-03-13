@@ -49,6 +49,8 @@
   cursor: pointer;
   box-shadow: 0 8px 20px rgba(11, 104, 255, 0.14);
   transition: transform 0.14s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .empty-cta:hover {
@@ -127,13 +129,18 @@
   background: transparent;
   border: 1px solid rgba(37, 99, 235, 0.12);
   color: #2563eb;
-  padding: 5px 10px;
+  padding: 8px 12px;
   border-radius: 8px;
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.15s ease;
+  /* Mobile touch fixes */
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .like-btn.liked {
@@ -201,6 +208,10 @@
   font-weight: 700;
   font-size: 13px;
   white-space: nowrap;
+  /* Mobile touch fixes */
+  min-height: 44px;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn-ghost {
@@ -222,6 +233,12 @@
   text-decoration: none;
   font-weight: 700;
   font-size: 13px;
+  /* Mobile touch fixes */
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btn-delete {
@@ -250,6 +267,7 @@
   margin-bottom: 8px;
   overflow-y: auto;
   max-height: 200px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .comment {
@@ -277,12 +295,14 @@
 
 .comment-input input {
   flex: 1;
-  padding: 8px 10px;
+  padding: 10px;
   border-radius: 8px;
   border: 1px solid #e6eef6;
   outline: none;
-  font-size: 13px;
+  font-size: 14px;
   min-width: 0;
+  min-height: 44px;
+  -webkit-appearance: none;
 }
 
 .comment-input input:focus {

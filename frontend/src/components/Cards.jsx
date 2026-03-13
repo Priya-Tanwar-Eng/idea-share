@@ -17,6 +17,10 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // Safely extract token and id
+  const token = user?.token;
+  const userId = user?.id || user?._id || user?.user?.id || user?.user?._id;
+
   const setCommentText = (id, text) =>
     setCommentTextMap((p) => ({ ...p, [id]: text }));
 
@@ -27,25 +31,25 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
     if (!onPatchIdea) return;
 
     onPatchIdea(id, (prev) => {
-      const liked = (prev.likedBy || []).some((x) => x?.toString() === user.id);
+      const liked = (prev.likedBy || []).some((x) => x?.toString() === userId);
       if (liked) {
         return {
           ...prev,
           likes: Math.max(0, (prev.likes || 0) - 1),
-          likedBy: (prev.likedBy || []).filter((x) => x?.toString() !== user.id),
+          likedBy: (prev.likedBy || []).filter((x) => x?.toString() !== userId),
         };
       } else {
         return {
           ...prev,
           likes: (prev.likes || 0) + 1,
-          likedBy: [...(prev.likedBy || []), user.id],
+          likedBy: [...(prev.likedBy || []), userId],
         };
       }
     });
 
     try {
       const res = await API.put(`/api/ideas/like/${id}`, {}, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const updated = res?.data?.idea;
       if (updated) {
@@ -53,18 +57,18 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
       }
     } catch (err) {
       onPatchIdea(id, (prev) => {
-        const liked = (prev.likedBy || []).some((x) => x?.toString() === user.id);
+        const liked = (prev.likedBy || []).some((x) => x?.toString() === userId);
         if (liked) {
           return {
             ...prev,
             likes: Math.max(0, (prev.likes || 0) - 1),
-            likedBy: (prev.likedBy || []).filter((x) => x?.toString() !== user.id),
+            likedBy: (prev.likedBy || []).filter((x) => x?.toString() !== userId),
           };
         } else {
           return {
             ...prev,
             likes: (prev.likes || 0) + 1,
-            likedBy: [...(prev.likedBy || []), user.id],
+            likedBy: [...(prev.likedBy || []), userId],
           };
         }
       });
@@ -81,7 +85,7 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
     const prevComments = currentIdea ? [...(currentIdea.comments || [])] : [];
 
     const newComment = {
-      user: { name: user.name, _id: user.id },
+      user: { name: user.name, _id: userId },
       text,
       createdAt: new Date().toISOString(),
     };
@@ -96,7 +100,7 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
 
     try {
       const res = await API.post(`/api/ideas/${id}/comment`, { text }, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const serverComments = res?.data?.comments;
       if (serverComments) {
@@ -112,12 +116,11 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
   };
 
   const isLiked = (idea) =>
-    (idea.likedBy || []).some((x) => x?.toString() === user.id);
+    (idea.likedBy || []).some((x) => x?.toString() === userId);
 
   /* ── EMPTY STATE ── */
   if (ideas.length === 0) {
     const isMyIdeas = filterValue === "myIdea";
-
     return (
       <div className="empty-state">
         <div className="empty-icon">{isMyIdeas ? "💡" : "🔍"}</div>
@@ -157,6 +160,8 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
                 <button
                   className={`like-btn ${isLiked(idea) ? "liked" : ""}`}
                   onClick={() => handleLikes(idea._id)}
+                  onPointerUp={(e) => e.preventDefault()}
+                  onTouchEnd={(e) => { e.preventDefault(); handleLikes(idea._id); }}
                   aria-label={`Like ${idea.title}`}
                 >
                   <span className="like-count">{idea.likes || 0}</span> Like
@@ -177,16 +182,24 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
             </div>
 
             <div className="card-actions">
-              <button className="btn btn-ghost" onClick={() => toggleComments(idea._id)}>
+              <button
+                className="btn btn-ghost"
+                onClick={() => toggleComments(idea._id)}
+                onTouchEnd={(e) => { e.preventDefault(); toggleComments(idea._id); }}
+              >
                 Comments ({idea.comments.length || 0})
               </button>
 
-              {idea.user._id === user.id && (
+              {idea.user._id === userId && (
                 <>
                   <Link className="btn btn-edit" to={`/edit/${idea._id}`}>
                     Edit
                   </Link>
-                  <button className="btn btn-delete" onClick={() => handleDelete(idea._id)}>
+                  <button
+                    className="btn btn-delete"
+                    onClick={() => handleDelete(idea._id)}
+                    onTouchEnd={(e) => { e.preventDefault(); handleDelete(idea._id); }}
+                  >
                     Delete
                   </button>
                 </>
@@ -213,7 +226,11 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
                   onChange={(e) => setCommentText(idea._id, e.target.value)}
                   placeholder="Add a comment..."
                 />
-                <button onClick={() => handleComment(idea._id)} className="btn btn-primary">
+                <button
+                  onClick={() => handleComment(idea._id)}
+                  onTouchEnd={(e) => { e.preventDefault(); handleComment(idea._id); }}
+                  className="btn btn-primary"
+                >
                   Add
                 </button>
               </div>
