@@ -103,7 +103,7 @@ function Dashboard() {
 
         {/* ── CENTER FEED ── */}
         <div className="dashboard-feed">
-          <Cards ideas={ideas} handleDelete={handleDelete} onPatchIdea={patchIdea} />
+          <Cards ideas={ideas} handleDelete={handleDelete} onPatchIdea={patchIdea} filterValue={value} />
         </div>
 
         {/* ── RIGHT TRENDING PANEL ── */}

@@ -6,10 +6,53 @@
 
 .empty-state {
   text-align: center;
-  color: #4b5563;
-  padding: 60px 10px;
-  background: linear-gradient(180deg, rgba(16, 24, 40, 0.02), rgba(16, 24, 40, 0.01));
-  border-radius: 12px;
+  padding: 60px 24px;
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.02), rgba(37, 99, 235, 0.01));
+  border-radius: 16px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.empty-icon {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.empty-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.empty-desc {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  max-width: 36ch;
+  line-height: 1.6;
+}
+
+.empty-cta {
+  margin-top: 8px;
+  padding: 11px 22px;
+  background: linear-gradient(90deg, #0b69ff, #0b8bff);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(11, 104, 255, 0.14);
+  transition: transform 0.14s ease;
+}
+
+.empty-cta:hover {
+  transform: translateY(-2px);
 }
 
 .cards-grid {
