@@ -11,13 +11,44 @@ const getInitials = (name) => {
   return (parts[0][0] + (parts[1]?.[0] || "")).toUpperCase();
 };
 
+// Mobile-safe button — works on both touch and mouse
+const TapButton = ({ onClick, className, disabled, children, ...props }) => {
+  const fired = React.useRef(false);
+
+  const handleTouch = (e) => {
+    e.preventDefault();
+    if (fired.current) return;
+    fired.current = true;
+    onClick();
+    setTimeout(() => { fired.current = false; }, 600);
+  };
+
+  const handleClick = (e) => {
+    if (fired.current) return;
+    fired.current = true;
+    onClick();
+    setTimeout(() => { fired.current = false; }, 600);
+  };
+
+  return (
+    <button
+      className={className}
+      disabled={disabled}
+      onTouchEnd={handleTouch}
+      onClick={handleClick}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+};
+
 const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }) => {
   const [commentTextMap, setCommentTextMap] = useState({});
   const [showComments, setShowComments] = useState({});
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Safely extract token and id
   const token = user?.token;
   const userId = user?.id || user?._id || user?.user?.id || user?.user?._id;
 
@@ -118,7 +149,6 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
   const isLiked = (idea) =>
     (idea.likedBy || []).some((x) => x?.toString() === userId);
 
-  /* ── EMPTY STATE ── */
   if (ideas.length === 0) {
     const isMyIdeas = filterValue === "myIdea";
     return (
@@ -157,15 +187,13 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
               </div>
 
               <div className="card-header-right">
-                <button
+                <TapButton
                   className={`like-btn ${isLiked(idea) ? "liked" : ""}`}
                   onClick={() => handleLikes(idea._id)}
-                  onPointerUp={(e) => e.preventDefault()}
-                  onTouchEnd={(e) => { e.preventDefault(); handleLikes(idea._id); }}
                   aria-label={`Like ${idea.title}`}
                 >
                   <span className="like-count">{idea.likes || 0}</span> Like
-                </button>
+                </TapButton>
               </div>
             </header>
 
@@ -182,26 +210,24 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
             </div>
 
             <div className="card-actions">
-              <button
+              <TapButton
                 className="btn btn-ghost"
                 onClick={() => toggleComments(idea._id)}
-                onTouchEnd={(e) => { e.preventDefault(); toggleComments(idea._id); }}
               >
                 Comments ({idea.comments.length || 0})
-              </button>
+              </TapButton>
 
               {idea.user._id === userId && (
                 <>
                   <Link className="btn btn-edit" to={`/edit/${idea._id}`}>
                     Edit
                   </Link>
-                  <button
+                  <TapButton
                     className="btn btn-delete"
                     onClick={() => handleDelete(idea._id)}
-                    onTouchEnd={(e) => { e.preventDefault(); handleDelete(idea._id); }}
                   >
                     Delete
-                  </button>
+                  </TapButton>
                 </>
               )}
             </div>
@@ -225,14 +251,14 @@ const Cards = ({ ideas, handleDelete, onPatchIdea = () => {}, filterValue = "" }
                   value={commentTextMap[idea._id] || ""}
                   onChange={(e) => setCommentText(idea._id, e.target.value)}
                   placeholder="Add a comment..."
+                  onKeyDown={(e) => { if (e.key === "Enter") handleComment(idea._id); }}
                 />
-                <button
-                  onClick={() => handleComment(idea._id)}
-                  onTouchEnd={(e) => { e.preventDefault(); handleComment(idea._id); }}
+                <TapButton
                   className="btn btn-primary"
+                  onClick={() => handleComment(idea._id)}
                 >
                   Add
-                </button>
+                </TapButton>
               </div>
             </div>
           </article>
