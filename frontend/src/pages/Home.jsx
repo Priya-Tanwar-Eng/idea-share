@@ -24,71 +24,57 @@ function Home() {
       <Navbar />
 
       <main className="home-main">
-        <section className="hero">
-          <div className="hero-left">
-            <h1 className="hero-title">
-              Turn Your Ideas Into Reality
-            </h1>
-            <p className="hero-sub">
-              Share, learn and build together — a platform where students and creators bring ideas to life.
-            </p>
+  <section className="hero">
+  <div className="hero-content">
+    <div className="hero-text">
+      <span className="hero-badge">🚀 Build • Share • Grow</span>
 
-            <div className="hero-ctas">
-              <button className="btn primary" onClick={handleGetStarted}>
-                Get Started
-              </button>
-              <button className="btn ghost" onClick={handleExplore}>
-                Explore Ideas
-              </button>
-            </div>
+      <h1>
+        Turn Your Ideas Into
+        <span> Reality</span>
+      </h1>
 
-            <div className="hero-stats">
-              <div className="stat">
-                <strong>1.2k+</strong>
-                <span>Ideas</span>
-              </div>
-              <div className="stat">
-                <strong>800+</strong>
-                <span>Members</span>
-              </div>
-              <div className="stat">
-                <strong>300+</strong>
-                <span>Projects</span>
-              </div>
-            </div>
-          </div>
+      <p>
+        Share, learn and build together — a platform where
+        students and creators bring ideas to life.
+      </p>
 
-          <div className="hero-right" aria-hidden>
-            {/* Decorative SVG illustration */}
-            <svg viewBox="0 0 512 512" className="hero-illustration" xmlns="http://www.w3.org/2000/svg" role="img">
-              <defs>
-                <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
-                  <stop offset="0" stopColor="#6EE7B7" />
-                  <stop offset="1" stopColor="#60A5FA" />
-                </linearGradient>
-                <linearGradient id="g2" x1="0" x2="1" y1="0" y2="1">
-                  <stop offset="0" stopColor="#FDE68A" />
-                  <stop offset="1" stopColor="#FB7185" />
-                </linearGradient>
-              </defs>
+      <div className="hero-buttons">
+        <button className="btn primary" onClick={handleGetStarted}>
+          Get Started
+        </button>
 
-              <g fill="none" fillRule="evenodd">
-                <rect x="40" y="48" width="352" height="288" rx="20" fill="url(#g1)" opacity="0.92" />
-                <circle cx="360" cy="140" r="84" fill="url(#g2)" opacity="0.95" />
-                <g transform="translate(88,112)">
-                  <rect width="120" height="12" rx="6" fill="#ffffff" opacity="0.3" />
-                  <rect y="28" width="200" height="14" rx="7" fill="#ffffff" opacity="0.2" />
-                  <rect y="60" width="160" height="10" rx="5" fill="#ffffff" opacity="0.18" />
-                </g>
+        <button className="btn secondary" onClick={handleExplore}>
+          Explore Ideas
+        </button>
+      </div>
 
-                <g transform="translate(64,320)">
-                  <rect width="40" height="14" rx="6" fill="#fff" opacity="0.08" />
-                  <rect x="56" width="80" height="18" rx="8" fill="#fff" opacity="0.08" />
-                </g>
-              </g>
-            </svg>
-          </div>
-        </section>
+      <div className="hero-stats">
+        <div>
+          <h3>1.2k+</h3>
+          <span>Ideas</span>
+        </div>
+
+        <div>
+          <h3>800+</h3>
+          <span>Members</span>
+        </div>
+
+        <div>
+          <h3>300+</h3>
+          <span>Projects</span>
+        </div>
+      </div>
+    </div>
+
+    <div className="hero-image">
+      <img
+        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f"
+        alt="Students collaborating"
+      />
+    </div>
+  </div>
+</section>
 
         <section className="features" aria-label="Features">
           <h2 className="features-title">Why IdeaShare?</h2>
