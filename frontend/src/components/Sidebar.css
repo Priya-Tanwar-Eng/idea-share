@@ -1,12 +1,4 @@
-/* Sidebar.css — responsive, no position:fixed */
-
-:root {
-  --sidebar-bg: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
-  --card-bg: #ffffff;
-  --accent: #2563eb;
-  --accent-2: #16a34a;
-  --muted: #1e40af;
-}
+/* Sidebar.css — glass panel, spark active indicator */
 
 .sidebar {
   width: 100%;
@@ -14,10 +6,12 @@
 }
 
 .sidebar-card {
-  background: var(--card-bg);
-  border-radius: 14px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   padding: 18px;
-  box-shadow: 0 6px 20px rgba(16, 24, 40, 0.06);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -31,35 +25,35 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 12px;
+  margin-top: 8px;
 }
 
-.brand-mark {
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
+.sidebar .brand-mark {
+  background: linear-gradient(135deg, var(--spark-violet), var(--spark-coral));
   color: white;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--r-sm);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0.6px;
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.14);
+  font-size: 14px;
   flex-shrink: 0;
 }
 
 .brand-text {
-  color: var(--muted);
-  font-size: 18px;
+  color: var(--ink);
+  font-size: 17px;
   font-weight: 700;
+  font-family: var(--font-display);
 }
 
 .sidebar-nav ul {
   list-style: none;
   margin: 0;
-  padding: 4px;
+  padding: 4px 0;
 }
 
 .sidebar-item,
@@ -67,32 +61,43 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 12px;
-  margin-bottom: 8px;
-  border-radius: 10px;
-  color: var(--muted);
+  padding: 11px 12px;
+  margin-bottom: 6px;
+  border-radius: var(--r-sm);
+  color: var(--ink-muted);
   cursor: pointer;
   text-decoration: none;
-  transition: transform 0.12s ease, background 0.15s ease, box-shadow 0.12s ease;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
 .sidebar-icon svg {
-  color: #1e3a8a;
+  color: var(--ink-faint);
+  transition: color 0.15s ease;
 }
 
 .sidebar-item:hover,
 .sidebar-link:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(90deg, rgba(37, 99, 235, 0.06), rgba(16, 24, 40, 0.02));
-  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.04);
+  transform: translateX(2px);
+  background: var(--glass-strong);
+  color: var(--ink);
+}
+
+.sidebar-item:hover .sidebar-icon svg,
+.sidebar-link:hover .sidebar-icon svg {
+  color: var(--spark-coral-soft);
 }
 
 .sidebar-item.active,
 .sidebar-link.active {
-  background: linear-gradient(90deg, rgba(37, 99, 235, 0.08), rgba(37, 99, 235, 0.03));
-  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.06);
-  font-weight: 700;
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0.18), rgba(255, 122, 89, 0.08));
+  color: var(--ink);
+  font-weight: 600;
   position: relative;
+}
+
+.sidebar-item.active .sidebar-icon svg,
+.sidebar-link.active .sidebar-icon svg {
+  color: var(--spark-violet-soft);
 }
 
 .sidebar-item.active::before,
@@ -100,32 +105,35 @@
   content: "";
   position: absolute;
   left: -4px;
-  width: 4px;
+  width: 3px;
   top: 8px;
   bottom: 8px;
-  border-radius: 4px;
-  background: linear-gradient(180deg, #2563eb 0%, #06b6d4 100%);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.08);
+  border-radius: var(--r-pill);
+  background: linear-gradient(180deg, var(--spark-violet), var(--spark-coral));
 }
 
 .sidebar-logout {
   margin-top: auto;
-  color: #dc2626;
-  font-weight: 700;
+  color: var(--spark-red);
+  font-weight: 600;
   background: transparent;
 }
 
+.sidebar-logout .sidebar-icon svg {
+  color: var(--spark-red);
+}
+
 .sidebar-logout:hover {
-  background: linear-gradient(90deg, rgba(220, 82, 82, 0.06), rgba(0, 0, 0, 0.02));
+  background: rgba(255, 92, 122, 0.1);
   transform: none;
 }
 
 .sidebar-label {
-  font-size: 15px;
+  font-size: 14.5px;
   letter-spacing: 0.1px;
 }
 
 .sidebar-link {
-  color: var(--muted);
+  color: var(--ink-muted);
   width: 100%;
 }

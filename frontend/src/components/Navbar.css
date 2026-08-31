@@ -1,31 +1,48 @@
-/* Navbar.css — responsive with hamburger */
+/* Navbar.css — frosted glass, sticky, spark logo mark */
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
-  background: #1E3A8A;
-  color: white;
+  padding: 14px 28px;
+
+  background: rgba(14, 11, 26, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--glass-border-soft);
+
+  color: var(--ink);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 }
 
 .nav-logo a,
 .nav-logo .nav-logo-link {
-  font-size: 22px;
-  color: white;
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--ink);
   font-weight: 700;
   text-decoration: none;
-  letter-spacing: 0.5px;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Desktop nav links */
+.nav-logo .nav-logo-link::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff, var(--spark-coral) 40%, var(--spark-violet) 100%);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.7);
+  flex-shrink: 0;
+}
+
 .nav-links {
   display: flex;
-  gap: 16px;
+  gap: 6px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -34,14 +51,14 @@
 
 .nav-link,
 .nav-links .auth-btn {
-  color: white;
+  color: var(--ink-dim);
   text-decoration: none;
-  font-size: 15px;
-  padding: 6px 10px;
+  font-size: 14px;
+  padding: 8px 14px;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
-  border-radius: 8px;
+  border-radius: var(--r-pill);
   transition: background 0.15s ease, color 0.15s ease;
   outline: none;
 }
@@ -52,45 +69,49 @@
 .auth-link:focus,
 .auth-btn:hover,
 .auth-btn:focus {
-  text-decoration: none;
+  color: var(--ink);
+  background: var(--glass);
 }
 
 .nav-link.active {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: var(--glass-strong);
+  color: var(--ink);
+  border: 1px solid var(--glass-border);
 }
 
 .add-btn {
-  background: #22c55e;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 8px;
+  background: linear-gradient(135deg, var(--spark-violet), var(--spark-coral));
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: var(--r-pill);
   text-decoration: none;
   font-weight: 700;
 }
 
-.add-btn.active {
-  background: #16a34a;
+.add-btn.active,
+.add-btn:hover {
+  filter: brightness(1.08);
+  color: #fff;
 }
 
 .auth-link {
-  color: #ffeb3b;
+  color: var(--spark-coral-soft);
 }
 
 .auth-btn {
   background: transparent;
-  color: #ffeb3b;
-  border: none;
+  color: var(--spark-coral-soft);
+  border: 1px solid var(--glass-border);
   cursor: pointer;
-  padding: 6px 10px;
+  padding: 8px 14px;
   font-weight: 600;
-  border-radius: 8px;
-  font-size: 15px;
+  border-radius: var(--r-pill);
+  font-size: 14px;
 }
 
 .btn-ghost {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
 }
 
 .nav-links li {
@@ -107,24 +128,23 @@
   border: none;
   cursor: pointer;
   padding: 6px;
-  border-radius: 8px;
+  border-radius: var(--r-xs);
   transition: background 0.15s ease;
 }
 
 .hamburger:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--glass);
 }
 
 .hamburger span {
   display: block;
   width: 22px;
   height: 2px;
-  background: white;
+  background: var(--ink);
   border-radius: 2px;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-/* Open state: X shape */
 .hamburger.open span:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
@@ -141,10 +161,10 @@
 .nav-mobile-menu {
   display: none;
   flex-direction: column;
-  background: #1E3A8A;
-  padding: 8px 16px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  background: rgba(14, 11, 26, 0.96);
+  backdrop-filter: blur(18px);
+  padding: 10px 16px 18px;
+  border-top: 1px solid var(--glass-border-soft);
   position: absolute;
   top: 100%;
   left: 0;
@@ -161,9 +181,10 @@
 .nav-mobile-menu .auth-link,
 .nav-mobile-menu .auth-btn {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 14px;
   font-size: 15px;
-  border-radius: 8px;
+  border-radius: var(--r-sm);
+  margin-bottom: 4px;
 }
 
 /* ── RESPONSIVE ── */
@@ -177,6 +198,6 @@
   }
 
   .navbar {
-    position: relative; /* so mobile menu positions correctly */
+    position: relative;
   }
 }

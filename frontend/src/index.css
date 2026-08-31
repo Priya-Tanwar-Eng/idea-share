@@ -1,5 +1,140 @@
- * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
- }
+/* =========================================
+   IDEASHARE — GLOBAL DESIGN TOKENS
+   Glassmorphic system: violet-black canvas,
+   coral + mint sparks, frosted glass surfaces.
+========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* canvas */
+  --void-1: #0e0b1a;
+  --void-2: #1a1330;
+  --void-3: #241a3d;
+
+  /* glass */
+  --glass: rgba(255, 255, 255, 0.055);
+  --glass-strong: rgba(255, 255, 255, 0.09);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-border-soft: rgba(255, 255, 255, 0.08);
+
+  /* ink */
+  --ink: #f3efff;
+  --ink-dim: #c9c2e6;
+  --ink-muted: #9f97be;
+  --ink-faint: #756d94;
+
+  /* sparks (accents) */
+  --spark-violet: #8b5cf6;
+  --spark-violet-soft: #a78bfa;
+  --spark-coral: #ff7a59;
+  --spark-coral-soft: #ffab91;
+  --spark-mint: #34d399;
+  --spark-red: #ff5c7a;
+
+  /* type */
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* radius scale — deliberately uneven */
+  --r-lg: 26px;
+  --r-md: 16px;
+  --r-sm: 10px;
+  --r-xs: 8px;
+  --r-pill: 999px;
+
+  /* shadow / glow */
+  --glow-violet: 0 0 0 1px rgba(139, 92, 246, 0.18), 0 20px 60px rgba(139, 92, 246, 0.16);
+  --glow-coral: 0 0 0 1px rgba(255, 122, 89, 0.18), 0 20px 60px rgba(255, 122, 89, 0.14);
+  --shadow-panel: 0 24px 60px rgba(5, 3, 15, 0.5);
+}
+
+html,
+body {
+  background: var(--void-1);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* fixed mesh backdrop — one signature moment, reused everywhere */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+body::before {
+  width: 620px;
+  height: 620px;
+  top: -180px;
+  left: -160px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.35), transparent 70%);
+}
+
+body::after {
+  width: 560px;
+  height: 560px;
+  bottom: -200px;
+  right: -140px;
+  background: radial-gradient(circle, rgba(255, 122, 89, 0.28), transparent 70%);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+p {
+  color: var(--ink-muted);
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--spark-violet);
+  color: #fff;
+}
+
+/* reusable glass surface — extend with class="glass-panel" if you add new UI */
+.glass-panel {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-panel);
+}
+
+:focus-visible {
+  outline: 2px solid var(--spark-violet-soft);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

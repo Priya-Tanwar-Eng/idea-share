@@ -1,4 +1,4 @@
-/* Cards.css — responsive updates */
+/* Cards.css — glass idea cards */
 
 .cards-wrap {
   padding: 20px 16px;
@@ -7,8 +7,9 @@
 .empty-state {
   text-align: center;
   padding: 60px 24px;
-  background: linear-gradient(180deg, rgba(37, 99, 235, 0.02), rgba(37, 99, 235, 0.01));
-  border-radius: 16px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
   margin: 20px;
   display: flex;
   flex-direction: column;
@@ -17,37 +18,37 @@
 }
 
 .empty-icon {
-  font-size: 48px;
+  font-size: 44px;
   line-height: 1;
   margin-bottom: 4px;
 }
 
 .empty-title {
   margin: 0;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--ink);
 }
 
 .empty-desc {
   margin: 0;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--ink-muted);
   max-width: 36ch;
   line-height: 1.6;
 }
 
 .empty-cta {
-  margin-top: 8px;
+  margin-top: 10px;
   padding: 11px 22px;
-  background: linear-gradient(90deg, #0b69ff, #0b8bff);
+  background: linear-gradient(120deg, var(--spark-violet), var(--spark-coral));
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: var(--r-pill);
   font-weight: 700;
   font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(11, 104, 255, 0.14);
+  box-shadow: var(--glow-violet);
   transition: transform 0.14s ease;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
@@ -57,7 +58,7 @@
   transform: translateY(-2px);
 }
 
-/* ── Cards Grid — single column layout ── */
+/* ── Cards Grid ── */
 .cards-grid {
   display: flex;
   flex-direction: column;
@@ -69,19 +70,20 @@
 /* ── Card ── */
 .card {
   position: relative;
-  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-  border-radius: 16px;
-  padding: 18px 20px 18px 22px;
-  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  padding: 20px 22px 20px 24px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
   display: flex;
   flex-direction: column;
   gap: 12px;
   overflow: hidden;
-  border: 1px solid rgba(15, 23, 42, 0.04);
 }
 
-/* accent strip — unique touch */
+/* accent strip — spark gradient */
 .card::before {
   content: "";
   position: absolute;
@@ -89,12 +91,13 @@
   left: 0;
   width: 4px;
   height: 100%;
-  background: linear-gradient(180deg, #2563eb, #06b6d4);
+  background: linear-gradient(180deg, var(--spark-violet), var(--spark-coral));
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.1);
+  border-color: rgba(139, 92, 246, 0.32);
+  background: var(--glass-strong);
 }
 
 .card-header {
@@ -104,17 +107,16 @@
 }
 
 .avatar {
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  background: linear-gradient(135deg, var(--spark-violet), var(--spark-coral));
   color: white;
   width: 40px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: var(--r-sm);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 14px;
-  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.12);
   flex-shrink: 0;
 }
 
@@ -126,7 +128,7 @@
 
 .user-name {
   font-weight: 700;
-  color: #0f172a;
+  color: var(--ink);
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -135,7 +137,7 @@
 
 .time {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--ink-faint);
 }
 
 .card-header-right {
@@ -145,16 +147,15 @@
 
 .like-btn {
   background: transparent;
-  border: 1px solid rgba(37, 99, 235, 0.12);
-  color: #2563eb;
+  border: 1px solid var(--glass-border);
+  color: var(--ink-dim);
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: var(--r-pill);
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.15s ease;
-  /* Mobile touch fixes */
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   min-height: 44px;
   min-width: 44px;
   touch-action: manipulation;
@@ -162,30 +163,31 @@
 }
 
 .like-btn.liked {
-  background: linear-gradient(90deg, #2563eb, #06b6d4);
-  color: white;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: linear-gradient(90deg, var(--spark-mint), #06b6d4);
+  color: #06231b;
+  border: 1px solid transparent;
 }
 
 .like-count {
   margin-right: 4px;
-  color: #0f172a;
+  color: var(--ink);
 }
 
 .like-btn.liked .like-count {
-  color: white;
+  color: #06231b;
 }
 
 .card-title {
   margin: 0;
   font-size: 17px;
-  font-weight: 800;
-  color: #0b1220;
-  line-height: 1.2;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  font-family: var(--font-display);
 }
 
 .card-desc {
-  color: #374151;
+  color: var(--ink-muted);
   font-size: 14px;
   margin: 0;
   display: -webkit-box;
@@ -202,10 +204,11 @@
 }
 
 .tag {
-  background: linear-gradient(90deg, #e6f3ff, #f0f9ff);
-  color: #0369a1;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.22);
+  color: var(--spark-violet-soft);
   padding: 4px 10px;
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   font-weight: 700;
   font-size: 12px;
 }
@@ -219,39 +222,39 @@
 }
 
 .btn {
-  padding: 7px 11px;
-  border-radius: 8px;
+  padding: 7px 12px;
+  border-radius: var(--r-sm);
   border: none;
   cursor: pointer;
   font-weight: 700;
   font-size: 13px;
   white-space: nowrap;
-  /* Mobile touch fixes */
   min-height: 44px;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  font-family: var(--font-body);
 }
 
 .btn-ghost {
   background: transparent;
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  color: #0f172a;
+  border: 1px solid var(--glass-border);
+  color: var(--ink-dim);
 }
 
 .btn-primary {
-  background: linear-gradient(90deg, #06b6d4, #2563eb);
+  background: linear-gradient(90deg, var(--spark-violet), var(--spark-coral));
   color: #fff;
 }
 
 .btn-edit {
-  background: linear-gradient(90deg, #facc15, #f59e0b);
-  color: #08101a;
-  padding: 7px 11px;
-  border-radius: 8px;
+  background: rgba(255, 122, 89, 0.14);
+  border: 1px solid rgba(255, 122, 89, 0.3);
+  color: var(--spark-coral-soft);
+  padding: 7px 12px;
+  border-radius: var(--r-sm);
   text-decoration: none;
   font-weight: 700;
   font-size: 13px;
-  /* Mobile touch fixes */
   min-height: 44px;
   display: inline-flex;
   align-items: center;
@@ -260,14 +263,15 @@
 }
 
 .btn-delete {
-  background: linear-gradient(90deg, #ef4444, #f97316);
-  color: #fff;
+  background: rgba(255, 92, 122, 0.14);
+  border: 1px solid rgba(255, 92, 122, 0.3);
+  color: var(--spark-red);
 }
 
 /* Comments panel */
 .comments-panel {
   margin-top: 4px;
-  border-top: 1px dashed rgba(15, 23, 42, 0.04);
+  border-top: 1px dashed var(--glass-border-soft);
   padding-top: 8px;
   max-height: 0;
   overflow: hidden;
@@ -289,21 +293,22 @@
 }
 
 .comment {
-  background: #f8fafc;
+  background: rgba(255, 255, 255, 0.04);
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: var(--r-xs);
 }
 
 .comment strong {
   display: block;
   margin-bottom: 4px;
   font-size: 13px;
+  color: var(--ink);
 }
 
 .comment p {
   margin: 0;
   font-size: 13px;
-  color: #374151;
+  color: var(--ink-muted);
 }
 
 .comment-input {
@@ -313,11 +318,13 @@
 }
 
 .comment-input input {
-  flex: 1 1 auto;   /* input zyada space le */
+  flex: 1 1 auto;
   width: 100%;
   padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #e6eef6;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--ink);
   outline: none;
   font-size: 14px;
   min-width: 0;
@@ -325,14 +332,16 @@
   -webkit-appearance: none;
 }
 
-.comment-input input:focus {
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.06);
-  border-color: #bae6fd;
+.comment-input input::placeholder {
+  color: var(--ink-faint);
 }
 
-/* Add button inside comment-input — compact, fixed width */
+.comment-input input:focus {
+  border-color: rgba(139, 92, 246, 0.45);
+}
+
 .comment-input .btn-primary {
-  flex: 0 0 auto;   /* button apni content ke hisaab se chhota rahe */
+  flex: 0 0 auto;
   width: auto;
   min-width: 64px;
   padding: 10px 16px;
@@ -341,7 +350,7 @@
 
 .no-comments {
   font-size: 13px;
-  color: #9ca3af;
+  color: var(--ink-faint);
   text-align: center;
   padding: 8px;
 }
@@ -358,6 +367,6 @@
   }
 
   .card {
-    padding: 14px 14px 14px 18px;
+    padding: 16px 16px 16px 20px;
   }
 }

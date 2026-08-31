@@ -1,24 +1,29 @@
-/* Login layout (desktop default kept as before) */
+/* Login.css — split glass layout */
+
 .login-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 35px;
-  padding: 40px 60px;
-  min-height: 80vh;
-  background: #f5f7fa;
-  align-items: center; /* stays centered on smaller screens */
+  gap: 24px;
+  padding: 50px 60px;
+  min-height: calc(100vh - 65px);
+  align-items: stretch;
 }
 
 /* Hero side */
 .login-hero {
-  background: linear-gradient(135deg, #6ec6ff, #0066ff);
-  border-radius: 20px;
+  background: linear-gradient(150deg, rgba(139, 92, 246, 0.35), rgba(255, 122, 89, 0.22));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
   display: flex;
   align-items: center;
   padding: 50px;
-  color: white;
+  color: #fff;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
+
 .hero-title {
+  font-family: var(--font-display);
   font-size: 38px;
   font-weight: 700;
   line-height: 1.2;
@@ -27,62 +32,102 @@
 
 /* Card side */
 .login-card {
-  background: white;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
   padding: 45px;
-  border-radius: 14px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
-  border: 1px solid #eee;
-  /* removed height: fit-content; we'll set full height on wide screens */
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-panel);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-/* Form */
 .login-form {
   display: flex;
   flex-direction: column;
 }
+
 .form-label {
   margin-bottom: 6px;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
-  color: #333;
+  color: var(--ink-dim);
 }
+
 .form-input {
-  padding: 12px;
+  padding: 12px 14px;
   margin-bottom: 18px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
   font-size: 15px;
   outline: none;
   width: 100%;
   box-sizing: border-box;
-}
-.form-input:focus {
-  box-shadow: 0 0 0 3px rgba(0,102,255,0.12);
+  font-family: var(--font-body);
 }
 
-/* Button */
+.form-input::placeholder {
+  color: var(--ink-faint);
+}
+
+.form-input:focus {
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.14);
+}
+
 .btn-primary {
   padding: 14px;
-  margin-top: 10px;
-  background: #0066ff;
+  margin-top: 8px;
+  background: linear-gradient(120deg, var(--spark-violet), var(--spark-coral));
   color: white;
-  font-size: 17px;
+  font-size: 16px;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: var(--r-pill);
+  font-weight: 700;
   cursor: pointer;
+  box-shadow: var(--glow-violet);
+  transition: transform 0.15s ease;
 }
-.btn-primary:disabled { opacity: 0.7; cursor: default; }
 
-/* Footer text */
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
 .signup-prompt {
   margin-top: 18px;
   text-align: center;
-  font-size: 15px;
+  font-size: 14px;
+  color: var(--ink-muted);
 }
-.link-primary { color: #0066ff; font-weight: 600; }
 
-/* Responsive: stack on small screens */
+.link-primary {
+  color: var(--spark-coral-soft);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.link-primary:hover {
+  text-decoration: underline;
+}
+
+.card-title {
+  text-align: left;
+  margin-bottom: 22px;
+  font-size: 25px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--ink);
+}
+
 @media (max-width: 900px) {
   .login-layout {
     grid-template-columns: 1fr;
@@ -91,41 +136,16 @@
   }
 
   .login-hero {
-    padding: 30px;
-    border-radius: 12px;
+    padding: 32px;
     text-align: center;
+    justify-content: center;
   }
+
   .hero-title {
-     font-size: 26px;
- }
+    font-size: 26px;
+  }
 
   .login-card {
-    padding: 24px;
-    border-radius: 10px;
+    padding: 28px;
   }
-}
-
-.card-title{
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;    
-    font-weight: 700;
-}
-
-/* NEW: Equalize heights on larger screens */
-@media (min-width: 901px) {
-  .login-layout {
-    align-items: stretch; /* make grid items fill the same vertical space */
-  }
-
-  .login-hero,
-  .login-card {
-    height: 100%;             /* fill the grid row height */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;  /* vertically center contents */
-  }
-
-  /* Ensure card content doesn't look cramped */
-  .login-card { padding: 45px; }
 }

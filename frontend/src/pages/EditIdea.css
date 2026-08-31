@@ -1,29 +1,31 @@
+/* EditIdea.css — glass form card (mirrors AddIdea) */
 
 .edit-page {
-  background: linear-gradient(180deg, #f7f9fc 0%, #f1f5fa 100%);
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - 65px);
   padding: 56px 20px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
 .edit-card {
   width: 760px;
   max-width: calc(100% - 40px);
-  background: #ffffff;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
   padding: 32px;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(18, 38, 63, 0.06);
-  border: 1px solid rgba(15, 23, 42, 0.03);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-panel);
 }
 
 .edit-title {
   margin: 0 0 18px 0;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--ink);
+  font-family: var(--font-display);
 }
 
 .edit-form {
@@ -47,44 +49,58 @@ label {
 
 .label-text {
   font-weight: 600;
-  color: #0f172a;
+  color: var(--ink-dim);
   font-size: 13px;
 }
 
 .input {
   padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: #fff;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
   font-size: 14px;
   outline: none;
+  font-family: var(--font-body);
   transition: box-shadow 160ms ease, border-color 140ms ease;
   width: 100%;
   box-sizing: border-box;
 }
 
 .input:focus {
-  box-shadow: 0 4px 18px rgba(12, 74, 168, 0.07);
-  border-color: rgba(12, 74, 168, 0.25);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.14);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+select.input option {
+  background: var(--void-2);
+  color: var(--ink);
 }
 
 .textarea {
   min-height: 120px;
   padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
   resize: vertical;
   font-size: 14px;
   outline: none;
   width: 100%;
   box-sizing: border-box;
-  font-family: inherit;
+  font-family: var(--font-body);
   transition: box-shadow 160ms ease, border-color 140ms ease;
 }
 
 .textarea:focus {
-  box-shadow: 0 4px 18px rgba(12, 74, 168, 0.07);
-  border-color: rgba(12, 74, 168, 0.25);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.14);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--ink-faint);
 }
 
 .full {
@@ -96,10 +112,10 @@ label {
   gap: 8px;
   flex-wrap: wrap;
   align-items: center;
-  background: #fbfdff;
+  background: rgba(255, 255, 255, 0.03);
   padding: 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(15, 23, 42, 0.03);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--glass-border-soft);
 }
 
 .tag-chip {
@@ -107,12 +123,12 @@ label {
   align-items: center;
   gap: 8px;
   padding: 8px 10px;
-  background: linear-gradient(180deg, #eef6ff 0%, #f3f9ff 100%);
-  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.14);
+  border-radius: var(--r-pill);
   font-weight: 600;
-  color: #0b3b6b;
+  color: var(--spark-violet-soft);
   font-size: 13px;
-  border: 1px solid rgba(11, 59, 107, 0.06);
+  border: 1px solid rgba(139, 92, 246, 0.24);
 }
 
 .tag-remove {
@@ -120,7 +136,7 @@ label {
   border: none;
   padding: 0 4px;
   cursor: pointer;
-  color: #234a6d;
+  color: var(--spark-violet-soft);
   font-weight: 700;
 }
 
@@ -128,26 +144,31 @@ label {
   flex: 1 1 160px;
   min-width: 120px;
   padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px dashed rgba(15, 23, 42, 0.06);
+  border-radius: var(--r-xs);
+  border: 1px dashed var(--glass-border);
   background: none;
   outline: none;
-  color: #0f172a;
+  color: var(--ink);
   font-size: 14px;
+  font-family: var(--font-body);
+}
+
+.tag-input::placeholder {
+  color: var(--ink-faint);
 }
 
 .submit-btn {
   margin-top: 6px;
   align-self: flex-end;
-  padding: 12px 24px;
-  border-radius: 10px;
+  padding: 12px 26px;
+  border-radius: var(--r-pill);
   border: none;
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
   color: white;
-  background: linear-gradient(90deg, #0b69ff 0%, #0b8bff 100%);
-  box-shadow: 0 8px 20px rgba(11, 104, 255, 0.14);
+  background: linear-gradient(120deg, var(--spark-violet), var(--spark-coral));
+  box-shadow: var(--glow-violet);
   transition: transform 140ms ease, opacity 160ms ease;
 }
 
@@ -170,7 +191,7 @@ label {
   }
 
   .edit-title {
-    font-size: 22px;
+    font-size: 21px;
   }
 
   .edit-row {
@@ -180,5 +201,6 @@ label {
   .submit-btn {
     width: 100%;
     align-self: stretch;
+    text-align: center;
   }
 }
