@@ -308,12 +308,14 @@
 
 .comment-input {
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
 .comment-input input {
-  flex: 1;
-  padding: 10px;
+  flex: 1 1 auto;   /* input zyada space le */
+  width: 100%;
+  padding: 10px 12px;
   border-radius: 8px;
   border: 1px solid #e6eef6;
   outline: none;
@@ -326,6 +328,15 @@
 .comment-input input:focus {
   box-shadow: 0 6px 18px rgba(37, 99, 235, 0.06);
   border-color: #bae6fd;
+}
+
+/* Add button inside comment-input — compact, fixed width */
+.comment-input .btn-primary {
+  flex: 0 0 auto;   /* button apni content ke hisaab se chhota rahe */
+  width: auto;
+  min-width: 64px;
+  padding: 10px 16px;
+  white-space: nowrap;
 }
 
 .no-comments {
